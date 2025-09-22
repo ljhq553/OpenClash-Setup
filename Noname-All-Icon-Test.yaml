@@ -22,17 +22,17 @@ default: &default
 
 # 代理组
 proxy-groups:
-  - {name: ChatGPT, <<: *default}
-  - {name: GitHub, <<: *default}
-  - {name: Telegram, <<: *default}
-  - {name: YouTube, <<: *default}
-  - {name: TikTok, <<: *default}
-  - {name: Netflix, <<: *default}
-  - {name: Spotify, <<: *default}
-  - {name: Google, <<: *default}
+  - {name: ChatGPT, <<: *default, icon: "https://raw.githubusercontent.com/ljhq553/Icon/refs/heads/main/icon-chatgpt.png"}
+  - {name: GitHub, <<: *default, icon: "https://raw.githubusercontent.com/ljhq553/Icon/refs/heads/main/icon-github.png"}
+  - {name: Telegram, <<: *default, icon: "https://raw.githubusercontent.com/ljhq553/Icon/refs/heads/main/icon-telegram.png"}
+  - {name: YouTube, <<: *default, icon: "https://raw.githubusercontent.com/ljhq553/Icon/refs/heads/main/icon-youtube.png"}
+  - {name: TikTok, <<: *default, icon: "https://raw.githubusercontent.com/ljhq553/Icon/refs/heads/main/icon-tiktok.png"}
+  - {name: Netflix, <<: *default, icon: "https://raw.githubusercontent.com/ljhq553/Icon/refs/heads/main/icon-netflix.png"}
+  - {name: Spotify, <<: *default, icon: "https://raw.githubusercontent.com/ljhq553/Icon/refs/heads/main/icon-spotify.png"}
+  - {name: Google, <<: *default, icon: "https://raw.githubusercontent.com/ljhq553/Icon/refs/heads/main/icon-google.png"}
   - {name: 🌐 国外, <<: *default}
-  - {name: 🇨🇳 国内, <<: *default}
-  - {name: 🔄 其他, <<: *default}
+  - {name: 🏠 国内, <<: *default}
+  - {name: 🐟 其余, <<: *default}
   - {name: Ⓜ︎ 所有-手动, type: select, include-all: true, filter: "^((?!(直连|拒绝)).)*$"}
   - {name: Ⓐ 所有-自动, type: url-test, include-all: true, tolerance: 50, interval: 300, filter: "^((?!(直连|拒绝)).)*$"}
   - {name: 🇭🇰 香港-自动, type: url-test, include-all: true, tolerance: 50, interval: 300, filter: "(?=.*(广港|香港|HK|Hong Kong|🇭🇰|HongKong)).*$"}
@@ -58,11 +58,11 @@ rules:
   - RULE-SET,Google / IP,Google,no-resolve
   - RULE-SET,Proxy / Domain,🌐 国外
   - RULE-SET,Globe / Domain,🌐 国外  
-  - RULE-SET,Direct / Domain,🇨🇳 国内
-  - RULE-SET,China / Domain,🇨🇳 国内
-  - RULE-SET,China / IP,🇨🇳 国内,no-resolve
-  - RULE-SET,Private / Domain,🇨🇳 国内
-  - MATCH,🔄 其他
+  - RULE-SET,Direct / Domain,🏠 国内
+  - RULE-SET,China / Domain,🏠 国内
+  - RULE-SET,China / IP,🏠 国内,no-resolve
+  - RULE-SET,Private / Domain,🏠 国内
+  - MATCH,🐟 其余
 
 # 规则集提供者
 rule-anchor:
