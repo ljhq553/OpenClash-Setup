@@ -1,1 +1,1 @@
-http://board.zash.run.place/#/proxies
+http://192.168.0.111:90
