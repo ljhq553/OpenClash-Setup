@@ -1,7 +1,7 @@
 # 机场节点订阅
 proxy-providers:
   LBdl-AutoLink:
-    url: "XX机场链接"
+    url: "LB机场链接"
     type: http
     interval: 86400
     health-check:
@@ -11,7 +11,7 @@ proxy-providers:
     proxy: 直连 
     exclude-filter: "网站|如果|更新|客户"     
     override:
-     additional-prefix: "XX机场名-"
+     additional-prefix: "机场名-"
  
 #节点定义  
 proxies:
