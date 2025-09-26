@@ -37,8 +37,8 @@ proxy-groups:
   - {name: 🌐 国外, <<: *default}
   - {name: 🏠 国内, <<: *default}
   - {name: 其余, <<: *default}
-  - {name: 所有-手动, type: select, include-all: true, filter: "^((?!(直连|拒绝)).)*$"}
-  - {name: 所有-自动, type: url-test, include-all: true, tolerance: 50, interval: 300, filter: "^((?!(直连|拒绝)).)*$"}
+  - {name: Ⓜ︎ 所有-手动, type: select, include-all: true, filter: "^((?!(直连|拒绝)).)*$"}
+  - {name: Ⓐ 所有-自动, type: url-test, include-all: true, tolerance: 50, interval: 300, filter: "^((?!(直连|拒绝)).)*$"}
   - {name: 🇭🇰 香港-自动, type: url-test, include-all: true, tolerance: 50, interval: 300, filter: "(?=.*(广港|香港|HK|Hong Kong|🇭🇰|HongKong)).*$"}
   - {name: 🇹🇼 台湾-自动, type: url-test, include-all: true, tolerance: 50, interval: 300, filter: "(?=.*(广台|台湾|台灣|TW|Tai Wan|🇹🇼|🇨🇳|TaiWan|Taiwan)).*$"}
   - {name: 🇯🇵 日本-自动, type: url-test, include-all: true, tolerance: 50, interval: 300, filter: "(?=.*(广日|日本|JP|川日|东京|大阪|泉日|埼玉|沪日|深日|🇯🇵|Japan)).*$"}
