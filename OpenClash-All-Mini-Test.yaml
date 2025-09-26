@@ -33,7 +33,6 @@ proxy-groups:
   - {name: Disney, <<: *default}
   - {name: Netflix, <<: *default}
   - {name: Spotify, <<: *default}
-  - {name: Steam, <<: *default}
   - {name: Google, <<: *default}
   - {name: 国外, <<: *default}
   - {name: 国内, <<: *default}
@@ -58,7 +57,6 @@ rules:
   - RULE-SET,Netflix / Domain,Netflix
   - RULE-SET,Netflix / IP,Netflix,no-resolve
   - RULE-SET,Spotify / Domain,Spotify
-  - RULE-SET,Steam / Domain,Steam
   - RULE-SET,Google / Domain,Google
   - RULE-SET,Google / IP,Google,no-resolve
   - RULE-SET,Proxy / Domain,国外
@@ -84,7 +82,6 @@ rule-providers:
   Netflix / Domain: {<<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/ljhq553/Rules/refs/heads/main/NetFlix.mrs"}
   Netflix / IP: {<<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/ljhq553/Rules/refs/heads/main/NetFlix_IP.mrs"}
   Spotify / Domain: {<<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/ljhq553/Rules/refs/heads/main/Spotify.mrs"}
-  Steam / Domain: {<<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/ljhq553/Rules/refs/heads/main/Steam.mrs"}
   Google / Domain: {<<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/ljhq553/Rules/refs/heads/main/Google.mrs"}
   Google / IP: {<<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/ljhq553/Rules/refs/heads/main/Google_IP.mrs"}
 
