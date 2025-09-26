@@ -36,7 +36,7 @@ proxy-groups:
   - {name: Google, <<: *default}
   - {name: 🌐 国外, <<: *default}
   - {name: 🏠 国内, <<: *default}
-  - {name: 其余, <<: *default}
+  - {name: 🐟 其余, <<: *default}
   - {name: 🔧 所有-手动, type: select, include-all: true, filter: "^((?!(直连|拒绝)).)*$"}
   - {name: ⚙️ 所有-自动, type: url-test, include-all: true, tolerance: 50, interval: 300, filter: "^((?!(直连|拒绝)).)*$"}
   - {name: 🇭🇰 香港-自动, type: url-test, include-all: true, tolerance: 50, interval: 300, filter: "(?=.*(广港|香港|HK|Hong Kong|🇭🇰|HongKong)).*$"}
@@ -65,7 +65,7 @@ rules:
   - RULE-SET,China / Domain,🏠 国内
   - RULE-SET,China / IP,🏠 国内,no-resolve
   - RULE-SET,Private / Domain,🏠 国内
-  - MATCH,其余
+  - MATCH,🐟 
 
 # 规则集提供者
 rule-anchor:
