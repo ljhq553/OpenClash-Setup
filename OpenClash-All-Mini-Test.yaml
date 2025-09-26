@@ -59,12 +59,12 @@ rules:
   - RULE-SET,Spotify / Domain,Spotify
   - RULE-SET,Google / Domain,Google
   - RULE-SET,Google / IP,Google,no-resolve
-  - RULE-SET,Proxy / Domain,国外
-  - RULE-SET,Globe / Domain,国外  
-  - RULE-SET,Direct / Domain,国内
-  - RULE-SET,China / Domain,国内
-  - RULE-SET,China / IP,国内,no-resolve
-  - RULE-SET,Private / Domain,国内
+  - RULE-SET,Proxy / Domain,🌐 国外
+  - RULE-SET,Globe / Domain,🌐 国外  
+  - RULE-SET,Direct / Domain,🏠 国内
+  - RULE-SET,China / Domain,🏠 国内
+  - RULE-SET,China / IP,🏠 国内,no-resolve
+  - RULE-SET,Private / Domain,🏠 国内
   - MATCH,其余
 
 # 规则集提供者
