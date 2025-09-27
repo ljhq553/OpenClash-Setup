@@ -1,0 +1,84 @@
+# 导入此YAML文件成功运行后，需在控制面板中选择各个代理组，因为default代理组首次运行时类型为手动选择
+# 机场节点订阅
+proxy-providers:
+  机场名称:
+    url: "机场订阅链接"
+    type: http
+    interval: 86400
+    health-check:
+      enable: true
+      url: https://www.gstatic.com/generate_204
+      interval: 300
+    proxy: 直连
+#  exclude-filter: "网站|如果|更新|客户"
+    override:
+      additional-prefix: "机场名称-"
+
+#节点定义
+proxies:
+  - {name: 直连, type: direct}
+  - {name: 拒绝, type: reject}
+
+# 主要端口设置
+
+# 代理组定义
+default: &default
+  type: select
+  proxies: [直连,🔧 所有-手动,⚙️ 所有-自动,🇭🇰 香港-自动,🇹🇼 台湾-自动,🇯🇵 日本-自动,🇸🇬 新加坡-自动,🇰🇷 韩国-自动,🇺🇸 美国-自动,🔄 其他-自动,拒绝]
+
+proxy-groups:
+  - {name: ✨ OpenAI, <<: *default}
+  - {name: 👩‍👧‍👦 TikTok, <<: *default}
+  - {name: 📡 流媒体, <<: *default}
+  - {name: 🌐 国外, <<: *default}
+  - {name: 🏠 国内, <<: *default}
+  - {name: 🐟 其余, <<: *default}
+  - {name: 🔧 所有-手动, type: select, include-all: true, filter: "^((?!(直连|拒绝)).)*$"}
+  - {name: ⚙️ 所有-自动, type: url-test, include-all: true, tolerance: 50, interval: 300, filter: "^((?!(直连|拒绝)).)*$"}
+  - {name: 🇭🇰 香港-自动, type: url-test, include-all: true, tolerance: 50, interval: 300, filter: "(?=.*(广港|香港|HK|Hong Kong|🇭🇰|HongKong)).*$"}
+  - {name: 🇹🇼 台湾-自动, type: url-test, include-all: true, tolerance: 50, interval: 300, filter: "(?=.*(广台|台湾|台灣|TW|Tai Wan|🇹🇼|🇨🇳|TaiWan|Taiwan)).*$"}
+  - {name: 🇯🇵 日本-自动, type: url-test, include-all: true, tolerance: 50, interval: 300, filter: "(?=.*(广日|日本|JP|川日|东京|大阪|泉日|埼玉|沪日|深日|🇯🇵|Japan)).*$"}
+  - {name: 🇸🇬 新加坡-自动, type: url-test, include-all: true, tolerance: 50, interval: 300, filter: "(?=.*(广新|新加坡|SG|坡|狮城|🇸🇬|Singapore)).*$"}
+  - {name: 🇰🇷 韩国-自动, type: url-test, include-all: true, tolerance: 50, interval: 300, filter: "(?=.*(广韩|韩国|韓國|KR|首尔|春川|🇰🇷|Korea)).*$"}
+  - {name: 🇺🇸 美国-自动, type: url-test, include-all: true, tolerance: 50, interval: 300, filter: "(?=.*(广美|美|US|纽约|波特兰|达拉斯|俄勒|凤凰城|费利蒙|硅谷|拉斯|洛杉|圣何塞|圣克拉|西雅|芝加|🇺🇸|United States)).*$"}
+  - {name: 🔄 其他-自动, type: url-test, include-all: true, tolerance: 50, interval: 300, filter: "^((?!(直连|拒绝|广港|香港|HK|Hong Kong|🇭🇰|HongKong|广台|台湾|台灣|TW|Tai Wan|🇹🇼|🇨🇳|TaiWan|Taiwan|广日|日本|JP|川日|东京|大阪|泉日|埼玉|沪日|深日|🇯🇵|Japan|广新|新加坡|SG|坡|狮城|🇸🇬|Singapore|广韩|韩国|韓國|KR|首尔|春川|🇰🇷|Korea|广美|美|US|纽约|波特兰|达拉斯|俄勒|凤凰城|费利蒙|硅谷|拉斯|洛杉|圣何塞|圣克拉|西雅|芝加|🇺🇸|United States|英国|UK)).)*$"}
+
+# 规则
+rules:
+  - RULE-SET,OpenAI / Domain,✨ OpenAI
+  - RULE-SET,TikTok / Domain,👩‍👧‍👦 TikTok
+  - RULE-SET,Youtube / Domain,📡 流媒体
+  - RULE-SET,Disney / Domain,📡 流媒体
+  - RULE-SET,Netflix / Domain,📡 流媒体
+  - RULE-SET,Netflix / IP,📡 流媒体,no-resolve
+  - RULE-SET,Spotify / Domain,📡 流媒体
+  - RULE-SET,Proxy / Domain,🌐 国外
+  - RULE-SET,Globe / Domain,🌐 国外  
+  - RULE-SET,Direct / Domain,🏠 国内
+  - RULE-SET,China / Domain,🏠 国内
+  - RULE-SET,China / IP,🏠 国内,no-resolve
+  - RULE-SET,Private / Domain,🏠 国内
+  - MATCH,🐟 其余
+
+# 规则集提供者
+rule-anchor:
+  ip: &ip {type: http, interval: 86400, behavior: ipcidr, format: mrs}
+  domain: &domain {type: http, interval: 86400, behavior: domain, format: mrs}
+  class: &class {type: http, interval: 86400, behavior: classical, format: text}
+
+rule-providers:
+  OpenAI / Domain: {<<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/ljhq553/Rules/refs/heads/main/OpenAI.mrs"}
+  TikTok / Domain: {<<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/ljhq553/Rules/refs/heads/main/TikTok.mrs"}
+  Youtube / Domain: {<<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/ljhq553/Rules/refs/heads/main/YouTube.mrs"}
+  Disney / Domain: {<<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/ljhq553/Rules/refs/heads/main/Disney.mrs"}
+  Netflix / Domain: {<<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/ljhq553/Rules/refs/heads/main/NetFlix.mrs"}
+  Netflix / IP: {<<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/ljhq553/Rules/refs/heads/main/NetFlix_IP.mrs"}
+  Spotify / Domain: {<<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/ljhq553/Rules/refs/heads/main/Spotify.mrs"}
+
+  Proxy / Domain: {<<: *class, url: "https://gh-proxy.com/raw.githubusercontent.com/ljhq553/Rules/refs/heads/main/Proxy.list"}
+  Globe / Domain: {<<: *class, url: "https://gh-proxy.com/raw.githubusercontent.com/ljhq553/Rules/refs/heads/main/Global.list"}
+  Direct / Domain: {<<: *class, url: "https://gh-proxy.com/raw.githubusercontent.com/ljhq553/Rules/refs/heads/main/Direct.list"}
+  China / Domain: {<<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/ljhq553/Rules/refs/heads/main/China.mrs"}
+  China / IP: {<<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/ljhq553/Rules/refs/heads/main/China_IP.mrs"}
+  Private / Domain: {<<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/ljhq553/Rules/refs/heads/main/Private.mrs"}
+  
