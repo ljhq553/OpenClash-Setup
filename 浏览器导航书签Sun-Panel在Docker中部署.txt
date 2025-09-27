@@ -1,0 +1,17 @@
+在软路由终端下执行如下命令：
+1、拉取最新镜像：
+docker pull hslr/sun-panel:latest
+
+2、Docker部署：
+docker run -d --restart=always -p 3002:3002 \
+-v ~/docker_data/sun-panel/conf:/app/conf \
+-v ~/docker_data/sun-panel/uploads:/app/uploads \
+-v ~/docker_data/sun-panel/database:/app/database 
+--name Sun-Panel \
+hslr/sun-panel:latest
+
+3、执行  192.168.0.111:3002 登录
+默认账号：admin@sun.cc
+默认密码：12345678
+
+
