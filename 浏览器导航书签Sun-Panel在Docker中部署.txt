@@ -14,6 +14,3 @@ hslr/sun-panel:latest
 3、执行  192.168.0.111:3002 登录
 默认账号：admin@sun.cc
 默认密码：12345678
-
-
-
