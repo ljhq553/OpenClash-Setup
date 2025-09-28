@@ -1,3 +1,4 @@
+为了方便在Google Chrom和Microsoft Edge浏览器中测试各个代理组是否正常分流运行，专门选择Sun-Panel作为浏览器的启动页和主页配置，并将各个常用国内外网站放在首页和主页中；
 在软路由终端下执行如下命令：
 1、拉取最新镜像：
 docker pull hslr/sun-panel:latest
@@ -13,5 +14,6 @@ hslr/sun-panel:latest
 3、执行  192.168.0.111:3002 登录
 默认账号：admin@sun.cc
 默认密码：12345678
+
 
 
