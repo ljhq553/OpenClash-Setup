@@ -9,8 +9,9 @@ docker run -d --restart=always -p 3002:3002 \
 -v ~/docker_data/sun-panel/uploads:/app/uploads \
 -v ~/docker_data/sun-panel/database:/app/database 
 --name Sun-Panel \
-hslr/sun-panel:latest
+hslr/sun-panel
 
 3、执行  192.168.0.111:3002 登录
 默认账号：admin@sun.cc
 默认密码：12345678
+
