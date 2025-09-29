@@ -10,7 +10,7 @@ proxy-providers:
       url: https://www.gstatic.com/generate_204
       interval: 300
     proxy: 直连
-    exclude-filter: "网站|如果|更新|客户"
+    exclude-filter: "关键词1|关键词2|关键词3|关键词......"
     override:
       additional-prefix: "机场名缩写dl-"
 
