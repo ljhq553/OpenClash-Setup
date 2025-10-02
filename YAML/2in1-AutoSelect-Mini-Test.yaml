@@ -1,0 +1,83 @@
+# 模拟导入可信路径Tap机场和对偶云STdl机场，可信路径Tap机场需排除：剩余|重置|到期 三个无用节点，对偶云机场全部节点可用
+# 机场节点订阅
+proxy-providers:
+  Tap-Link:
+    url: "机场订阅地址"
+    type: http
+    interval: 86400
+    health-check:
+      enable: true
+      url: https://www.gstatic.com/generate_204
+      interval: 300
+    proxy: 直连
+    exclude-filter: "剩余|重置|到期"
+    override:
+      additional-prefix: "可信-"
+
+  STdl-Link:
+    url: "机场订阅地址"
+    type: http
+    interval: 86400
+    health-check:
+      enable: true
+      url: https://www.gstatic.com/generate_204
+      interval: 300
+    proxy: 直连
+#  exclude-filter: "关键词1|关键词2|关键词3|关键词4......"
+    override:
+      additional-prefix: "对偶-"
+
+#节点定义
+proxies:
+  - {name: 直连, type: direct}
+
+# 主要端口设置
+
+# 代理组定义
+proxy-groups:
+  - {name: ✨ OpenAI, type: url-test, include-all: true, tolerance: 50, interval: 300, filter: "(?=.*(广新|新加坡|SG|坡|狮城|🇸🇬|Singapore|广台|台湾|台灣|TW|Tai Wan|🇹🇼|🇨🇳|TaiWan|Taiwan|广美|美|US|🇺🇸|United States)).*$"}
+  - {name: 👩‍👧‍👦 TikTok, type: url-test, include-all: true, tolerance: 50, interval: 300, filter: "(?=.*(广新|新加坡|SG|坡|狮城|🇸🇬|Singapore|广台|台湾|台灣|TW|Tai Wan|🇹🇼|🇨🇳|TaiWan|Taiwa|n广美|美|US|🇺🇸|United States)).*$"}
+  - {name: 📡 流媒体, type: url-test, include-all: true, tolerance: 50, interval: 300, filter: "(?=.*(广港|香港|HK|Hong Kong|🇭🇰|HongKong|广台|台湾|台灣|TW|Tai Wan|🇹🇼|🇨🇳|TaiWan|Taiwan|广新|新加坡|SG|坡|狮城|🇸🇬|Singapore)).*$"}
+  - {name: 🌐 国外, type: url-test, include-all: true, tolerance: 50, interval: 300, filter: "^((?!(直连)).)*$"}
+  - {name: 🏠 国内, type: url-test, include-all: true, tolerance: 50, interval: 300, filter: "(?=.*(直连)).*$"}
+  - {name: 🐟 其余, type: url-test, include-all: true, tolerance: 50, interval: 300, filter: "^((?!(直连)).)*$"}
+ 
+# 规则
+rules:
+  - RULE-SET,OpenAI / Domain,✨ OpenAI
+  - RULE-SET,TikTok / Domain,👩‍👧‍👦 TikTok
+  - RULE-SET,Youtube / Domain,📡 流媒体
+  - RULE-SET,Disney / Domain,📡 流媒体
+  - RULE-SET,Netflix / Domain,📡 流媒体
+  - RULE-SET,Netflix / IP,📡 流媒体,no-resolve
+  - RULE-SET,Spotify / Domain,📡 流媒体
+  - RULE-SET,Proxy / Domain,🌐 国外
+  - RULE-SET,Globe / Domain,🌐 国外  
+  - RULE-SET,Direct / Domain,🏠 国内
+  - RULE-SET,China / Domain,🏠 国内
+  - RULE-SET,China / IP,🏠 国内,no-resolve
+  - RULE-SET,Private / Domain,🏠 国内
+  - MATCH,🐟 其余
+
+# 规则集提供者
+rule-anchor:
+  ip: &ip {type: http, interval: 86400, behavior: ipcidr, format: mrs}
+  domain: &domain {type: http, interval: 86400, behavior: domain, format: mrs}
+  class: &class {type: http, interval: 86400, behavior: classical, format: text}
+
+rule-providers:
+  OpenAI / Domain: {<<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/ljhq553/Rules/refs/heads/main/OpenAI.mrs"}
+  TikTok / Domain: {<<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/ljhq553/Rules/refs/heads/main/TikTok.mrs"}
+  Youtube / Domain: {<<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/ljhq553/Rules/refs/heads/main/YouTube.mrs"}
+  Disney / Domain: {<<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/ljhq553/Rules/refs/heads/main/Disney.mrs"}
+  Netflix / Domain: {<<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/ljhq553/Rules/refs/heads/main/NetFlix.mrs"}
+  Netflix / IP: {<<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/ljhq553/Rules/refs/heads/main/NetFlix_IP.mrs"}
+  Spotify / Domain: {<<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/ljhq553/Rules/refs/heads/main/Spotify.mrs"}
+
+  Proxy / Domain: {<<: *class, url: "https://gh-proxy.com/raw.githubusercontent.com/ljhq553/Rules/refs/heads/main/Proxy.list"}
+  Globe / Domain: {<<: *class, url: "https://gh-proxy.com/raw.githubusercontent.com/ljhq553/Rules/refs/heads/main/Global.list"}
+  Direct / Domain: {<<: *class, url: "https://gh-proxy.com/raw.githubusercontent.com/ljhq553/Rules/refs/heads/main/Direct.list"}
+  China / Domain: {<<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/ljhq553/Rules/refs/heads/main/China.mrs"}
+  China / IP: {<<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/ljhq553/Rules/refs/heads/main/China_IP.mrs"}
+  Private / Domain: {<<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/ljhq553/Rules/refs/heads/main/Private.mrs"}
+  
