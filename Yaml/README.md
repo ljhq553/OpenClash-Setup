@@ -1,0 +1,1 @@
+本文件包括：OpenClash的Yaml配置文件
