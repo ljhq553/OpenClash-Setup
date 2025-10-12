@@ -1,4 +1,4 @@
-订阅转换服务的Docker安装
+OpenClash中ZashBoard面板本地Docker安装
 
 一、安装命令
 在终端下运行上述命令
@@ -19,3 +19,4 @@ http://192.168.0.111:90
 四、图标设置
 
 在设置中选：导入设置->从文件导入->选 zashboard-settings.json 文件
+
