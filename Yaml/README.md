@@ -1,1 +1,1 @@
-本文件夹存放：OpenClash的Yaml配置文件
+本文件夹存放：OpenClash的Yaml配置文件和说明
