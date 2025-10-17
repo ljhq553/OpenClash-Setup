@@ -33,7 +33,7 @@ proxies:
 # 策略组定义
 proxy-groups:
   - {name: ChatGPT, type: select, proxies: [🇹🇼 台湾-自动, 🇸🇬 狮城-自动, 🇺🇸 美国-自动]}
-  - {name: TikTok,  type: select, proxies: [🇹🇼 台湾-自动, 🇸🇬 狮城-自动, 🇺🇸 美国-自动]}
+  - {name: TikTok,  type: select, proxies: [🇸🇬 狮城-自动, 🇹🇼 台湾-自动, 🇺🇸 美国-自动]}
   - {name: Spotify, type: select, proxies: [🇭🇰 香港-自动, 🇹🇼 台湾-自动, 🇸🇬 狮城-自动, 🇺🇸 美国-自动]}
   - {name: Disney, type: select, proxies: [🇭🇰 香港-自动, 🇹🇼 台湾-自动, 🇸🇬 狮城-自动, 🇺🇸 美国-自动]}
   - {name: Netflix, type: select, proxies: [🇭🇰 香港-自动, 🇹🇼 台湾-自动, 🇸🇬 狮城-自动, 🇺🇸 美国-自动]}
