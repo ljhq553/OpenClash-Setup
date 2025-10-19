@@ -1,0 +1,83 @@
+# 机场订阅部分
+# 允许多个机场订阅源
+proxy-providers:
+  机场名称1:					# 订阅源的名称，自定义，不可重复
+    url: "机场1订阅链接"				# 你的机场订阅链接
+    type: http					# 获取方式，http或file
+    interval: 86400					# 自动更新间隔，单位秒（86400秒 = 24小时）
+    health-check:					# 健康检查，用于判断节点是否可用
+      enable: true					# 开启健康检查
+      url: https://www.gstatic.com/generate_204		# 健康检查的URL
+      interval: 300					# 健康检查间隔，单位秒（300秒 = 5分钟）
+    filter: "香港|台湾|新加坡"				# 节点过滤器：保留节点名称中包含"香港"、"台湾"或"新加坡"的节点
+    exclude-filter: "测试|专线"				# 节点排除器：排除节点名称中包含"测试"或"专线"的节点
+    override:
+     additional-prefix: "牛逼-"				# 节点名称添加前缀，如节点名称原为"香港01"会变成"牛逼-香港01"
+
+# 第二个机场订阅源
+# 复制上述代码
+  机场名称2:
+    url: "机场2订阅链接"
+    type: http
+    interval: 86400
+    health-check:
+      enable: true
+      url: https://www.gstatic.com/generate_204
+      interval: 300
+    filter: "节点名1|节点名2|节点名3|节点名......"
+    exclude-filter: "XXX|XXX"
+    override:
+     additional-prefix: "机场名-"
+
+#节点定义（直连和拒绝作为新字符串需定义对应的默认节点名）  
+proxies:
+  - {name: 直连, type: direct}
+  - {name: 拒绝, type: reject}
+
+
+# 策略-代理组定义
+# 单个代理组定义的代码格式
+#冒号后面需要加空格来分隔键和值，字符串中的特殊字符（如 ^ /  | / ( ) 等）需要用双引号包裹以确保格式正确
+proxy-groups:
+例如：
+ - {name: 🔧 手动选择, type: select, include-all: true, filter: "^((?!(直连|拒绝)).)*$"}
+# 另一种写法：代码格式
+proxy-groups:
+ - name: "🔧 手动选择"
+   type: "select"
+   include-all: true
+   filter: "^((?!(直连|拒绝)).)*$"
+
+例如：
+ - {name: ⚙️ 自动选择, type: url-test, include-all: true, tolerance: 50, interval: 300, filter: "^((?!(直连|拒绝)).)*$"}
+# 另一种写法：代码格式
+proxy-groups:
+ - name: "⚙️ 自动选择"
+   type: "url-test"
+   include-all: true
+   tolerance: 50
+   interval: 300
+   filter: "^((?!(直连|拒绝)).)*$"
+
+# 策略-代理组定义
+# 多个代理组统一定义的代码格式
+default: &default
+  type: select
+  proxies: [直连,🔧 所有-手动,⚙️ 所有-自动,🇭🇰 香港-自动,🇹🇼 台湾-自动,🇯🇵 日本-自动,🇸🇬 新加坡-自动,🇰🇷 韩国-自动,🇺🇸 美国-自动,🔄 其他-自动,拒绝]
+# 数组格式：在YAML中，列表（数组）通常采用逐行书写的方式，使用双引号包裹包含空格或特殊字符的字符串（例如：🔧 所有-手动，⚙️ 所有-自动 等），可以确保 YAML 解析器正确处理这些内容。
+# 锚点（&default）：&default 表示你将 default 命名为锚点，之后可以通过 *default 来引用相同的配置，如果计划在后续的配置中多次使用该配置，这个锚点的定义是可反复引用的。
+# 也可按照如下格式定义
+default: &default
+  type: select
+  proxies:
+    - "直连"
+    - "🔧 所有-手动"
+    - "⚙️ 所有-自动"
+    - "🇭🇰 香港-自动"
+    - "🇹🇼 台湾-自动"
+    - "🇯🇵 日本-自动"
+    - "🇸🇬 新加坡-自动"
+    - "🇰🇷 韩国-自动"
+    - "🇺🇸 美国-自动"
+    - "🔄 其他-自动"
+    - "拒绝"
