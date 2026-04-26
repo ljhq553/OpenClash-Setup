@@ -1,7 +1,7 @@
 # 机场节点订阅
 proxy-providers:
   XXdl-Link:
-    url: "机场订阅链接"
+    url: "自己的机场订阅链接"
     type: http
     interval: 86400
     health-check:
