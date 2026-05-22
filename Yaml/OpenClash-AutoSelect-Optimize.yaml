@@ -19,7 +19,7 @@ proxies:
 
 # 应用组定义
 proxy-groups:
-  - {name: ChatGPT, type: select, proxies: [🇺🇸 美国-自动, 🇸🇬 狮城-自动, 🇹🇼 台湾-自动]}
+  - {name: OpenAI, type: select, proxies: [🇺🇸 美国-自动, 🇸🇬 狮城-自动, 🇹🇼 台湾-自动]}
   - {name: TikTok,  type: select, proxies: [🇸🇬 狮城-自动, 🇹🇼 台湾-自动, 🇺🇸 美国-自动]}
   - {name: Spotify, type: select, proxies: [🇭🇰 香港-自动, 🇸🇬 狮城-自动, 🇺🇸 美国-自动]}
   - {name: Disney, type: select, proxies: [🇭🇰 香港-自动, 🇹🇼 台湾-自动, 🇸🇬 狮城-自动]}
@@ -46,7 +46,7 @@ proxy-groups:
 
 # 规则集
 rules:
-  - RULE-SET,ChatGPT / Domain,ChatGPT
+  - RULE-SET,OpenAI / Domain,OpenAI
   - RULE-SET,TikTok / Domain,TikTok
   - RULE-SET,Spotify / Domain,Spotify
   - RULE-SET,Disney / Domain,Disney
@@ -71,7 +71,7 @@ rule-anchor:
   class: &class {type: http, interval: 86400, behavior: classical, format: text}
 
 rule-providers:
-  ChatGPT / Domain: {<<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/ljhq553/Rules/refs/heads/main/OpenAI.mrs"}
+  OpenAI / Domain: {<<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/ljhq553/Rules/refs/heads/main/OpenAI.mrs"}
   TikTok / Domain: {<<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/ljhq553/Rules/refs/heads/main/TikTok.mrs"}
   Spotify / Domain: {<<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/ljhq553/Rules/refs/heads/main/Spotify.mrs"}
   Disney / Domain: {<<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/ljhq553/Rules/refs/heads/main/Disney.mrs"}
