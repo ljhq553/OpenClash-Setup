@@ -1,7 +1,8 @@
-# 适用于Mihomo内核的 OpenClash / Clash Verge 等客户端；
+# 适用于 Mihomo 内核的 OpenClash / Clash Verge 等客户端；
 # DNS、TUN、端口、外部控制等配置由各客户端分别设置；
 # OpenClash 启动前请确认 GeoSite / GeoIP 等数据库可用；
-# 注意用自己的机场订阅链接和机场名英文简称替换。
+# 注意用自己的机场订阅链接和机场名英文简称替换
+# 若需多个机场订阅，复制 proxy-providers 字段下语句，修改机场名、订阅链接和节点前缀即可。
 
 # = 机场订阅 =
 proxy-providers:
