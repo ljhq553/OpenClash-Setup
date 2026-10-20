@@ -1,0 +1,171 @@
+# 适用于Mihomo内核的 OpenClash / Clash Verge 等客户端；
+# DNS、TUN、端口、外部控制等配置由各客户端分别设置；
+# OpenClash 启动前请确认 GeoSite / GeoIP 等数据库可用；
+# 注意用自己的机场订阅链接和机场名英文简称替换。
+
+# = 机场订阅 =
+proxy-providers:
+  机场名英文简称:
+    url: "你的机场订阅链接"
+    type: http
+    interval: 86400
+    health-check:
+      enable: true
+      url: https://www.gstatic.com/generate_204
+      interval: 300
+    exclude-filter: 剩余|距离|套餐|流量|到期
+    override:
+      additional-prefix: 机场名英文缩写-
+
+# = 本地直连代理 =
+proxies:
+- name: 直连
+  type: direct
+
+# = 分流策略组 =
+proxy-groups:
+- name: Google
+  type: select
+  proxies:
+  - 所有自动
+  - 直连
+- name: OpenAI
+  type: select
+  proxies:
+  - AI节点组
+  - 直连
+- name: YouTube
+  type: select
+  proxies:
+  - 所有自动
+  - 直连
+- name: GitHub
+  type: select
+  proxies:
+  - 所有自动
+  - 直连
+- name: 国外
+  type: select
+  proxies:
+  - 所有自动
+  - 直连
+- name: 国内
+  type: select
+  proxies:
+  - 直连
+  - 所有自动
+- name: 其他
+  type: select
+  proxies:
+  - 所有自动
+  - 直连
+
+# = 节点代理组 =
+- name: AI节点组
+  type: url-test
+  use:
+  - 机场名英文缩写
+  filter: (?i)(新加坡|狮城|Singapore|日本|Japan|东京|美国|United States|USA|英国|United Kingdom|Britain|(^|[^A-Za-z])(SG|JP|US|UK)([^A-Za-z]|$))
+  url: https://www.gstatic.com/generate_204
+  interval: 300
+  tolerance: 100
+
+- name: 所有自动
+  type: url-test
+  use:
+  - 机场名英文缩写
+  url: https://www.gstatic.com/generate_204
+  interval: 300
+  tolerance: 100
+
+# = 分流规则 =
+rules:
+# 私有网段必须直连，且使用 no-resolve 避免本地DNS解析，提升速度与隐私
+  - IP-CIDR,127.0.0.0/8,直连,no-resolve
+  - IP-CIDR,169.254.0.0/16,直连,no-resolve
+  - IP-CIDR,10.0.0.0/8,直连,no-resolve
+  - IP-CIDR,172.16.0.0/12,直连,no-resolve
+  - IP-CIDR,192.168.0.0/16,直连,no-resolve
+  - IP-CIDR,100.64.0.0/10,直连,no-resolve
+
+# = 组播地址 =
+  - IP-CIDR,224.0.0.0/4,直连,no-resolve
+  - IP-CIDR,240.0.0.0/4,直连,no-resolve
+
+# = Geo 数据库中私有标签 =
+  - GEOSITE,private,直连
+  - GEOIP,private,直连,no-resolve
+
+# = 国内直连--域名后缀 =
+  - DOMAIN-SUFFIX,cn.bing.com,直连
+  - DOMAIN-SUFFIX,baidu.com,直连
+  - DOMAIN-SUFFIX,sina.com.cn,直连
+  - DOMAIN-SUFFIX,163.com,直连
+  - DOMAIN-SUFFIX,jd.com,直连
+  - DOMAIN-SUFFIX,taobao.com,直连
+  - DOMAIN-SUFFIX,tmall.com,直连
+  - DOMAIN-SUFFIX,meituan.com,直连
+  - DOMAIN-SUFFIX,pinduoduo.com,直连
+  - DOMAIN-SUFFIX,goofish.com,直连
+  - DOMAIN-SUFFIX,douyin.com,直连
+  - DOMAIN-SUFFIX,bilibili.com,直连
+  - DOMAIN-SUFFIX,iqiyi.com,直连
+  - DOMAIN-SUFFIX,qq.com,直连
+  - DOMAIN-SUFFIX,xiaomi.com,直连
+  - DOMAIN-SUFFIX,mi.com,直连
+  - DOMAIN-SUFFIX,weibo.com,直连
+  - DOMAIN-SUFFIX,zhihu.com,直连
+  - DOMAIN-SUFFIX,gtimg.com,直连
+  - DOMAIN-SUFFIX,alicdn.com,直连
+  - DOMAIN-SUFFIX,aliyuncs.com,直连
+  - DOMAIN-SUFFIX,amemv.com,直连
+  - DOMAIN-SUFFIX,bytedance.com,直连
+  - DOMAIN-SUFFIX,byteimg.com,直连
+
+# = 特定策略分流--域名后缀 =
+  - DOMAIN-SUFFIX,google.com,Google
+  - DOMAIN-SUFFIX,google.com.hk,Google
+  - DOMAIN-SUFFIX,googleapis.com,Google
+  - DOMAIN-SUFFIX,googleapis.cn,Google
+  - DOMAIN-SUFFIX,gstatic.com,Google
+  - DOMAIN-SUFFIX,gvt1.com,Google
+  - DOMAIN-SUFFIX,gvt2.com,Google
+  - DOMAIN-SUFFIX,gvt3.com,Google
+  - DOMAIN-SUFFIX,googleusercontent.com,Google
+  - DOMAIN-SUFFIX,ggpht.com,Google
+  - DOMAIN-SUFFIX,android.com,Google
+  - DOMAIN-SUFFIX,dl-ssl.google.com,Google
+  - DOMAIN-SUFFIX,market.android.com,Google
+  - DOMAIN-SUFFIX,xn--ngstr-lra8j.com,Google
+
+  - DOMAIN-SUFFIX,oaistatic.com,OpenAI
+  - DOMAIN-SUFFIX,oaiusercontent.com,OpenAI
+  - DOMAIN-SUFFIX,openai.com,OpenAI
+  - DOMAIN-SUFFIX,chatgpt.com,OpenAI
+  - DOMAIN-SUFFIX,anthropic.com,OpenAI
+  - DOMAIN-SUFFIX,claude.ai,OpenAI
+
+  - DOMAIN-SUFFIX,youtube.com,YouTube
+  - DOMAIN-SUFFIX,youtu.be,YouTube
+  - DOMAIN-SUFFIX,googlevideo.com,YouTube
+  - DOMAIN-SUFFIX,ytimg.com,YouTube
+
+  - DOMAIN-SUFFIX,github.com,GitHub
+  - DOMAIN-SUFFIX,github.io,GitHub
+  - DOMAIN-SUFFIX,githubusercontent.com,GitHub
+
+# = 特定策略分流--GeoSite数据库 =
+  - GEOSITE,google,Google
+  - GEOSITE,category-ai-!cn,OpenAI
+  - GEOSITE,category-ai-cn,直连
+  - GEOSITE,youtube,YouTube
+  - GEOSITE,github,GitHub
+  - GEOSITE,apple-cn,国内
+  - GEOSITE,microsoft@cn,国内
+
+
+# = 兜底可分为国外与直连两种分流 =
+  - GEOSITE,cn,直连
+  - GEOIP,CN,直连,no-resolve
+  - GEOSITE,geolocation-!cn,其他
+  - MATCH,其他
