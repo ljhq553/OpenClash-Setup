@@ -12,7 +12,7 @@ proxy-providers:
     filter: "香港|台湾|新加坡"				# 节点过滤器：保留节点名称中包含"香港"、"台湾"或"新加坡"的节点
     exclude-filter: "测试|专线"				# 节点排除器：排除节点名称中包含"测试"或"专线"的节点
     override:
-     additional-prefix: "牛逼-"				# 节点名称添加前缀，如节点名称原为"香港01"会变成"牛逼-香港01"
+     additional-prefix: "XX-"				# 节点名称添加前缀，如节点名称原为"香港01"会变成"XX-香港01"
 
 # 第二个机场订阅源
 # 复制上述代码
@@ -27,7 +27,7 @@ proxy-providers:
     filter: "节点名1|节点名2|节点名3|节点名......"
     exclude-filter: "XXX|XXX"
     override:
-     additional-prefix: "机场名-"
+     additional-prefix: "XX-"
 
 #节点定义（直连和拒绝作为新字符串需定义对应的默认节点名）  
 proxies:
