@@ -4,4 +4,4 @@
 
 用ssh连接到 OpenWrt 后台后，上传到\etc\config文件夹覆盖原文件即可；
 
-openclash-旁路由需配合LXdl-Yaml配置文件导入  文件只需在文件最后填入自己的订阅链接即可导入使用。
+“openclash-旁路由需配合LXdl-Yaml配置文件导入” -- 这个文件只需在文件最后填入自己的订阅链接即可导入使用。
