@@ -109,7 +109,7 @@ proxy-groups:
 
 # = 路由规则 =
 rules:
-# 私有网段必须直连，且使用 no-resolve 避免本地DNS解析，提升速度与隐私
+# 私有网段必须直连，且使用 no-resolve 避免本地 DNS 解析，提升速度与隐私
   - IP-CIDR,127.0.0.0/8,直连,no-resolve
   - IP-CIDR,169.254.0.0/16,直连,no-resolve
   - IP-CIDR,10.0.0.0/8,直连,no-resolve
