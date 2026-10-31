@@ -1,2 +1,3 @@
 https://browserleaks.com/dns
+https://dnsleaktest.com/
 https://ipleak.net/
