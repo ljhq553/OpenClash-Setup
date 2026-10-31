@@ -1,0 +1,266 @@
+# = dns配置 =
+dns:
+  enable: true
+  listen: 0.0.0.0:7874
+  ipv6: false
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  respect-rules: true
+  nameserver:
+  - https://dns.alidns.com/dns-query
+  - https://1.1.1.1/dns-query
+  nameserver-policy:
+    geosite:cn:
+    - https://dns.alidns.com/dns-query#DIRECT
+    geosite:geolocation-!cn:
+    - https://1.1.1.1/dns-query#所有自动
+  proxy-server-nameserver:
+    - https://dns.alidns.com/dns-query
+
+# = 机场订阅 =
+proxy-providers:
+  XXdl:
+    url: “”
+    type: http
+    interval: 86400
+    health-check:
+      enable: true
+      url: https://www.gstatic.com/generate_204
+      interval: 180
+    exclude-filter: 剩余|距离|套餐|流量|到期
+    override:
+      additional-prefix: "XX-"
+
+# = 自定义节点 =
+proxies:
+- name: 直连
+  type: direct
+
+- name: 拒绝
+  type: reject
+
+# =分流策略组 =
+proxy-groups:
+- name: YouTube
+  type: select
+  proxies:
+  - 所有自动
+  - 直连
+  icon: https://raw.githubusercontent.com/ljhq553/Icon/refs/heads/main/youtube.svg
+
+- name: Gemini
+  type: select
+  proxies:
+  - 美国自动
+  - 直连
+  icon: https://raw.githubusercontent.com/ljhq553/Icon/refs/heads/main/gemini.svg
+
+- name: OpenAI
+  type: select
+  proxies:
+  - AI专用组
+  - 直连
+  icon: https://raw.githubusercontent.com/ljhq553/Icon/refs/heads/main/chatgpt.svg
+
+- name: Google
+  type: select
+  proxies:
+  - 所有自动
+  - 直连
+  icon: https://raw.githubusercontent.com/ljhq553/Icon/refs/heads/main/google.svg
+
+- name: GitHub
+  type: select
+  proxies:
+  - 所有自动
+  - 直连
+  icon: https://raw.githubusercontent.com/ljhq553/Icon/refs/heads/main/github.svg
+
+- name: 广告拦截
+  type: select
+  proxies:
+  - 拒绝
+  - 直连
+  icon: https://raw.githubusercontent.com/ljhq553/Icon/refs/heads/main/ad.svg
+
+# = 分类节点组 =
+- name: 所有自动
+  type: url-test
+  use:
+  - LXdl
+  url: https://www.gstatic.com/generate_204
+  interval: 300
+  tolerance: 100
+  icon: https://raw.githubusercontent.com/ljhq553/Icon/refs/heads/main/all-auto.svg
+
+- name: AI专用组
+  type: url-test
+  use:
+  - LXdl
+  filter: (?i)(新加坡|狮城|Singapore|日本|Japan|东京|美国|United States|USA|英国|United Kingdom|Britain|(^|[^A-Za-z])(SG|JP|US|UK)([^A-Za-z]|$))
+  url: https://www.gstatic.com/generate_204
+  interval: 300
+  tolerance: 100
+  icon: https://raw.githubusercontent.com/ljhq553/Icon/refs/heads/main/openai.svg
+
+- name: 美国自动
+  type: url-test
+  use:
+  - LXdl
+  filter: (?i)(美国|United States|US|(^|[^A-Za-z])(US)([^A-Za-z]|$))
+  url: https://www.gstatic.com/generate_204
+  interval: 300
+  tolerance: 100
+  icon: https://raw.githubusercontent.com/ljhq553/Icon/refs/heads/main/flags-us.svg
+
+- name: 国外
+  type: select
+  proxies:
+  - 所有自动
+  - 直连
+  icon: https://raw.githubusercontent.com/ljhq553/Icon/refs/heads/main/world.svg
+
+- name: 国内
+  type: select
+  proxies:
+  - 直连
+  icon: https://raw.githubusercontent.com/ljhq553/Icon/refs/heads/main/home.svg
+
+- name: 其他
+  type: select
+  proxies:
+  - 所有自动
+  - 直连
+  icon: https://raw.githubusercontent.com/ljhq553/Icon/refs/heads/main/fishing.svg
+
+# 数据库 Geo 下载与更新 =
+geo-auto-update: true
+geo-update-interval: 24
+geodata-loader: standard
+geodata-mode: true
+geox-url:
+  mmdb: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip.metadb"
+  asn: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/GeoLite2-ASN.mmdb"
+  geoip: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip.dat"
+  geosite: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat"
+
+# = 路由规则 =
+
+rules:
+# = 广告拦截 =
+  - GEOSITE,category-ads-all,广告拦截
+
+# = 测试DNS泄漏站点强制走代理 =
+  - DOMAIN-SUFFIX,browserleaks.com,国外
+  - DOMAIN-SUFFIX,browserleaks.org,国外
+  - DOMAIN-SUFFIX,browserleaks.net,国外
+  - DOMAIN-SUFFIX,dnsleaktest.com,国外
+  - DOMAIN-SUFFIX,ipleak.net,国外
+
+# = 常用代理--AI 服务 =
+  - DOMAIN-SUFFIX,oaistatic.com,OpenAI
+  - DOMAIN-SUFFIX,oaiusercontent.com,OpenAI
+  - DOMAIN-SUFFIX,openai.com,OpenAI
+  - DOMAIN-SUFFIX,chatgpt.com,OpenAI
+  - DOMAIN-SUFFIX,anthropic.com,Gemini
+  - DOMAIN-SUFFIX,claude.ai,Gemini
+  - DOMAIN-SUFFIX,gemini.google.com,Gemini
+  - DOMAIN-SUFFIX,cloud.google.com,Gemini
+  - DOMAIN-SUFFIX,aistudio.google.com,Gemini
+  - DOMAIN-SUFFIX,x.ai,Gemini
+  - DOMAIN-SUFFIX,x.com,Gemini
+  - DOMAIN-SUFFIX,grok.com,Gemini
+  - DOMAIN-SUFFIX,grok.me,Gemini
+
+# = 常用代理--油管与吉特哈布 =
+  - DOMAIN-SUFFIX,youtube.com,YouTube
+  - DOMAIN-SUFFIX,youtu.be,YouTube
+  - DOMAIN-SUFFIX,googlevideo.com,YouTube
+  - DOMAIN-SUFFIX,ytimg.com,YouTube
+  - DOMAIN-SUFFIX,github.com,GitHub
+  - DOMAIN-SUFFIX,github.io,GitHub
+  - DOMAIN-SUFFIX,githubusercontent.com,GitHub
+
+# = 常用代理--Google 核心服务 =
+  - DOMAIN-SUFFIX,google.com,Google
+  - DOMAIN-SUFFIX,googleapis.com,Google
+  - DOMAIN-SUFFIX,googleapis.cn,Google
+  - DOMAIN-SUFFIX,gstatic.com,Google
+  - DOMAIN-SUFFIX,gvt1.com,Google
+  - DOMAIN-SUFFIX,gvt2.com,Google
+  - DOMAIN-SUFFIX,gvt3.com,Google
+  - DOMAIN-SUFFIX,googleusercontent.com,Google
+  - DOMAIN-SUFFIX,ggpht.com,Google
+  - DOMAIN-SUFFIX,android.com,Google
+  - DOMAIN-SUFFIX,xn--ngstr-lra8j.com,Google
+
+# = 微信应用直连 =
+  - DOMAIN-SUFFIX,weixin.qq.com,直连
+  - DOMAIN-SUFFIX,wx.qq.com,直连
+  - DOMAIN-SUFFIX,wxs.qq.com,直连
+  - DOMAIN-SUFFIX,wechat.com,直连
+  - DOMAIN-SUFFIX,servicewechat.com,直连
+  - DOMAIN-SUFFIX,qlogo.cn,直连
+  - DOMAIN-SUFFIX,qpic.cn,直连
+  - DOMAIN-SUFFIX,pay.weixin.qq.com,直连
+  - DOMAIN-SUFFIX,work.weixin.qq.com,直连
+  - DOMAIN-SUFFIX,wxwork.qq.com,直连
+  - PROCESS-NAME,WeChat.exe,直连
+  - PROCESS-NAME,WeChat,直连
+  - PROCESS-NAME,WeChatApp.exe,直连
+  - PROCESS-NAME,WeChatApp,直连
+  - PROCESS-NAME,com.tencent.mm,直连
+
+# = 常用国内直连 =
+  - DOMAIN-SUFFIX,cn.bing.com,直连
+  - DOMAIN-SUFFIX,iconify.design,直连
+  - DOMAIN-SUFFIX,iconify.design,直连
+  - DOMAIN-SUFFIX,baidu.com,直连
+  - DOMAIN-SUFFIX,sina.com.cn,直连
+  - DOMAIN-SUFFIX,163.com,直连
+  - DOMAIN-SUFFIX,jd.com,直连
+  - DOMAIN-SUFFIX,taobao.com,直连
+  - DOMAIN-SUFFIX,tmall.com,直连
+  - DOMAIN-SUFFIX,meituan.com,直连
+  - DOMAIN-SUFFIX,pinduoduo.com,直连
+  - DOMAIN-SUFFIX,goofish.com,直连
+  - DOMAIN-SUFFIX,douyin.com,直连
+  - DOMAIN-SUFFIX,bilibili.com,直连
+  - DOMAIN-SUFFIX,iqiyi.com,直连
+  - DOMAIN-SUFFIX,qq.com,直连
+  - DOMAIN-SUFFIX,xiaomi.com,直连
+  - DOMAIN-SUFFIX,mi.com,直连
+  - DOMAIN-SUFFIX,zhihu.com,直连
+  - DOMAIN-SUFFIX,cn,直连
+  - DOMAIN-SUFFIX,中国,国内
+  - DOMAIN-SUFFIX,公司,国内
+  - DOMAIN-SUFFIX,网络,国内
+
+# = GeoSite 数据库引用 =
+  - GEOSITE,private,直连
+  - GEOSITE,alibaba,直连
+  - GEOSITE,youtube,YouTube
+  - GEOSITE,github,GitHub
+  - GEOSITE,category-ai-!cn,OpenAI
+  - GEOSITE,category-ai-cn,直连
+  - GEOSITE,apple-cn,直连
+  - GEOSITE,microsoft@cn,直连
+  - GEOSITE,google,Google
+
+# = 局域网与私有 IP 直连 =
+  - IP-CIDR,127.0.0.0/8,直连,no-resolve
+  - IP-CIDR,169.254.0.0/16,直连,no-resolve
+  - IP-CIDR,10.0.0.0/8,直连,no-resolve
+  - IP-CIDR,172.16.0.0/12,直连,no-resolve
+  - IP-CIDR,192.168.0.0/16,直连,no-resolve
+  - IP-CIDR,100.64.0.0/10,直连,no-resolve
+  - IP-CIDR,224.0.0.0/4,直连,no-resolve
+  - IP-CIDR,240.0.0.0/4,直连,no-resolve
+
+# = 国外代理与国内直连兜底两种分流 =
+  - GEOSITE,cn,直连
+  - GEOSITE,geolocation-cn,直连
+  - GEOIP,CN,直连,no-resolve
+  - GEOSITE,geolocation-!cn,其他
+  - MATCH,其他
+
