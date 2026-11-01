@@ -83,7 +83,7 @@ proxy-groups:
   - 直连
   icon: https://raw.githubusercontent.com/ljhq553/Icon/refs/heads/main/ad.svg
 
-# = 分类节点组 =
+# = 节点分类组 =
 - name: 所有自动
   type: url-test
   use:
@@ -133,7 +133,7 @@ proxy-groups:
   - 直连
   icon: https://raw.githubusercontent.com/ljhq553/Icon/refs/heads/main/fishing.svg
 
-# 数据库 Geo 下载与更新 =
+# = 数据库 Geo 下载与更新 =
 geo-auto-update: true
 geo-update-interval: 24
 geodata-loader: standard
@@ -145,7 +145,6 @@ geox-url:
   geosite: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat"
 
 # = 路由规则 =
-
 rules:
 # = 广告拦截 =
   - GEOSITE,category-ads-all,广告拦截
